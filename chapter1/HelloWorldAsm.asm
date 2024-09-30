@@ -11,103 +11,138 @@
 	db %1			; bytes[length]
 %endmacro
 	
+%macro constant 1
+	%assign i i+1
+	%1 equ i
+%endmacro
+	
 ;;; File version stuff
 	db 0xca,0xfe,0xba,0xbe 		; magic
 	dwbe 0x0000			; minor_version
-	dwbe 0x0043			; major_version
+	dwbe 0x0041			; major_version
 	
-	dwbe 0x001d			; constant_pool_count
+	dwbe poolcount			; constant_pool_count
+	%assign i 0
 ;;; begin constant_pool[1ch]
-	;; 1h
+	constant Csuper_init
 	db 0x0a				; CONSTANT_Methodref
-	dwbe 0x0002			; class_index
-	dwbe 0x0003			; name_and_type_index
-	;; 2h
+	dwbe Csuper_class		; class_index
+	dwbe Cinit_method		; name_and_type_index
+	
+	constant Csuper_class
 	db 0x07				; CONSTANT_Class
-	dwbe 0x0004			; name_index
-	;; 3h
+	dwbe Csuper_class_name		; name_index
+
+	constant Cinit_method
 	db 0x0c				; CONSTANT_NameAndType
-	dwbe 0x0005			; name_index
-	dwbe 0x0006			; descriptor_index
-	;; 4h
+	dwbe Cinit_method_name		; name_index
+	dwbe Cinit_method_desc		; descriptor_index
+
+	constant Csuper_class_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'java/lang/Object'
-	;; 5h
+
+	constant Cinit_method_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 '<init>'
-	;; 6h
+
+	constant Cinit_method_desc
 	db 0x01				; CONSTANT_Utf8
 	dutf8 '()V'
-	;; 7h
+
+	constant CSystem_out_field
 	db 0x09				; CONSTANT_Fieldref
-	dwbe 0x0008			; class_index
-	dwbe 0x0009			; name_and_type_index
-	;; 8h
+	dwbe CSystem_class		; class_index
+	dwbe Cout_field			; name_and_type_index
+
+	constant CSystem_class
 	db 0x07				; CONSTANT_Class
-	dwbe 0x000a			; name_index
-	;; 9h
+	dwbe CSystem_name			; name_index
+
+	constant Cout_field
 	db 0x0c				; CONSTANT_NameAndType
-	dwbe 0x000b			; name_index
-	dwbe 0x000c			; descriptor_index
-	;; ah
+	dwbe Cout_name			; name_index
+	dwbe Cout_type			; descriptor_index
+
+	constant CSystem_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'java/lang/System'
-	;; bh
+
+	constant Cout_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'out'
-	;; ch
+
+	constant Cout_type
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'Ljava/io/PrintStream;'
-	;; dh
+
+	constant CString_Hello
 	db 0x08				; CONSTANT_String
-	dwbe 0x000e			; string_index
-	;; eh
+	dwbe CUtf8_Hello		; string_index
+
+	constant CUtf8_Hello
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'Hello World!'
 	;; fh
+	constant Cout_println
 	db 0x0a				; CONSTANT_Methodref
-	dwbe 0x0010			; class_index
+	dwbe CPrintStream_class		; class_index
 	dwbe 0x0011			; name_and_type_index
 	;; 10h
+	constant CPrintStream_class
 	db 0x07				; CONSTANT_Class
-	dwbe 0x0012			; name_index
+	dwbe CPrintStream_name		; name_index
 	;; 11h
+	constant Cprintln_method
 	db 0x0c				; CONSTANT_NameAndType
-	dwbe 0x0013			; name_index
-	dwbe 0x0014			; descriptor_index
+	dwbe Cprintln_name		; name_index
+	dwbe Cprintln_desc		; descriptor_index
 	;; 12h
+	constant CPrintStream_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'java/io/PrintStream'
 	;; 13h
+	constant Cprintln_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'println'
 	;; 14h
+	constant Cprintln_desc
 	db 0x01				; CONSTANT_Utf8
 	dutf8 '(Ljava/lang/String;)V'
 	;; 15h
+	constant Cthis_class
 	db 0x07				; CONSTANT_Class
-	dwbe 0x0016			; name_index
+	dwbe Cthis_name			; name_index
 	;; 16h
+	constant Cthis_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'HelloWorld'
 	;; 17h
+	constant CCode
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'Code'
 	;; 18h
+	constant CLineNumberTable
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'LineNumberTable'
 	;; 19h
+	constant Cmain_name
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'main'
 	;; 1ah
+	constant Cmain_desc
 	db 0x01				; CONSTANT_Utf8
 	dutf8 '([Ljava/lang/String;)V'
 	;; 1bh
+	constant CSourceFile
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'SourceFile'
 	;; 1ch
+	constant Cfilename
 	db 0x01				; CONSTANT_Utf8
 	dutf8 'HelloWorld.java'
+	
+	poolcount equ i+1
 ;;; end of constant_pool[1ch]
 
 	dwbe 0x0021			; access_flags: ACC_PUBLIC | ACC_SUPER
