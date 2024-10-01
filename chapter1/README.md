@@ -126,8 +126,10 @@ When compiled correctly, the new `HelloWorld.class` should be **identical** to t
 ## Macros
 
 I should say writing assembler macro is not the point of this little article. So I am not going to walk through all the implementation details. I'll only encourage those who are interested to read the macro implementation, they are not that complicated.
-However, knowing how to use these macros are going to be important in the following sections. SO! I shall direct your attention to [HelloWorldAsm.asm](HelloWorldAsm.asm).
-
+However, knowing how to use these macros are going to be important in the following sections. So I shall direct your attention to [HelloWorldAsm.asm](HelloWorldAsm.asm).
+This file is written as a showcase for how to use some of the macros. If you are trying to read the macro, all definition of the used macro can be found at the top of the file. Most of the what do they mean can be found on this one page of NASM's documentation: [Chapter 4: The NASM Preprocessor](https://www.nasm.us/xdoc/2.16.03/html/nasmdoc4.html).
+On the usage side, all macros that start with `begin_` will always need a corresponding `end_` macro.
+For `counted_list`, it is expected that every entry will have a macro that increment the counter `%$i` by 1, thus keep a count of how many entries exist. In `constant`'s case, this count is also assigned to a label for each entry, so we can use name to refer to them later, here all of those labels begin with a upper-case `C`.
 
 ## References
 

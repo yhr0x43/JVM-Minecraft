@@ -1,3 +1,4 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;; BEGIN macro definitions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 %macro dwbe 1
 	db (%1)>>8,(%1)&0xff
 %endmacro
@@ -55,6 +56,7 @@
 	dwbe %2			; name_index
 	dwbe %3			; descriptor_index
 %endmacro
+;;;;;;;;;;;;;;;;;;;;;;;;;;;; END macro definitions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 ;;; File version stuff
 	db 0xca,0xfe,0xba,0xbe 		; magic

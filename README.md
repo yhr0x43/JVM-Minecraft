@@ -4,12 +4,12 @@
 
 ## Introduction
 
-This repo is a guide on how to write a Minecraft mod with a twist. The actual goal here isn't to produce something that can show up on the screen as soon as possible. Instead, I want to ask a simple question: "What if I understand what I am writing?" Hence this guide.
+This repo is a guide on how to write a Minecraft mod with a twist. The actual goal here isn't to produce something that can show up on the screen as soon as possible. Instead, I want to ask a simple question: "What if I understand what I am writing?". So welcome to a journey on this topic with me.
 
 ## Target Audience
 
 Despite the premise of this guide, no previous knowledge of Java, JVM, or Minecraft Modding is expected. In fact, it is probably better without any previous knowledge, as you will get the most out of this guide.
-Instead, I expect the reader to be familiar with computer terms. You **should** know what is a byte, file, byte-order, etc. But in the end, the only real requirement is to be enthusiastic and curious. You are the operator of your computer, have fun messing with it!
+Instead, I expect the reader to be familiar with computer terms. You *should* know what is a byte, file, byte-order, etc. But in the end, the only real requirement is to be enthusiastic and curious. **You are the operator of your computer, have fun messing with it!**
 
 ## Tools
 
