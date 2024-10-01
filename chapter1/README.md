@@ -1,4 +1,4 @@
-# Chapter 1
+# Chapter 1 - Hello World
 
 ## Hello World in Java
 
@@ -16,7 +16,7 @@ public class HelloWorld {
 Compile and Run:
 
 ``` cmd
-javac HelloWolrld.java
+javac HelloWorld.java
 java HelloWorld
 Hello World!
 ```
@@ -82,9 +82,9 @@ java HelloWorld
 Bye   World!
 ```
 
-OK, that is enough exciting messing around, let's try to understand what we are looking at by reading some specs, here I find the oracle documentaion very helpful: [Chapter 4. The class File Format](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html)
+OK, that is enough exciting messing around, let's try to understand what we are looking at by reading some specs, here I find the oracle documentation very helpful: [Chapter 4. The class File Format](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html)
 
-Walking through all of the fields is suprisingly tedious, so I'm not going to 😜. The difficulty comes from the variable length field, different types can actually be different length. But please still try reading the file if you want to. Try to understand the syntax and change something to see what will happen!
+Walking through all of the fields is surprisingly tedious, so I'm not going to 😜. The difficulty comes from the variable length field, different types can actually be different length. But please still try reading the file if you want to. Try to understand the syntax and change something to see what will happen!
 
 ## Hello World hand made
 
@@ -97,7 +97,7 @@ Speaking of `db`, you should investigate it a bit more and NASM has a great docu
 Now, let's finally start writing our class in assembly!
 
 I used a NASM macro to cleanup the code. But if your assembler don't understand that,
-use something like `db 0x00,0x43` achives the same effect of `dwbe 0x0043`.
+use something like `db 0x00,0x43` achieves the same effect of `dwbe 0x0043`.
 ``` nasm
 %macro dwbe 1
 	db ((%1)>>8),((%1)&0xff)
@@ -117,11 +117,17 @@ The result is quite messy, so I'll only explain some big picture things.
 To assemble the program and test it:
 ``` cmd
 nasm -f bin -o HelloWorld.class HelloWorld.asm
-java HelloWolrd
+java HelloWorld
 ```
 `-f bin` specify the output format, here we request NASM just output whatever it generates and do not try to package them into some linkable or executable format.
 `-o HelloWorld.class` specify the name of output file, this is important because Java looks for class by filename.
 When compiled correctly, the new `HelloWorld.class` should be **identical** to the file compiled with `javac` earlier, and execute it with `java` of course still works.
+
+## Macros
+
+I should say writing assembler macro is not the point of this little article. So I am not going to walk through all the implementation details. I'll only encourage those who are interested to read the macro implementation, they are not that complicated.
+However, knowing how to use these macros are going to be important in the following sections. SO! I shall direct your attention to [HelloWorldAsm.asm](HelloWorldAsm.asm).
+
 
 ## References
 
