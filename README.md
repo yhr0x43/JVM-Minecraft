@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This repo is a guide on how to write a Minecraft mod with a twist. The actual goal here isn't to produce something that can show up on the screen as soon as possible. Instead, I want to ask a simple question: "What if I understand what I am writing?". So welcome to a journey on this topic with me.
+This repo is a guide on how to write a Minecraft mod with a twist. The actual goal here isn't to produce something that can show up on the screen as soon as possible. Instead, I want to ask a simple question: "What if I understand what I am writing?" So welcome to a journey on this topic with me.
 
 ## Target Audience
 
