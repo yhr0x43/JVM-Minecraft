@@ -145,6 +145,7 @@
 	dwbe 0x0000		; start_pc
 	dwbe 0x0001		; line_number
 ;;; end LineNumberTable Attribute
+;;; end attributes[1h]
 ;;; end Code Attribute
 ;;; end attributes[1h]
 	dwbe 0x0009		; access_flag: ACC_PUBLIC | ACC_STATIC
@@ -176,14 +177,15 @@
 	dwbe 0x0003		; line_number
 	dwbe 0x0008		; start_pc
 	dwbe 0x0004		; line_number
+;;; end line_number_table[2h]
 ;;; end LineNumberTable Attribute	
-;;; end attributes[2h]
+;;; end attributes[1h]
 ;;; end Code Attribute
 ;;; end attributes[1h]
 ;;; end methods[2h]
 	
 	dwbe 0x0001		; attributes_count
-;;; end attributes[1h]
+;;; begin attributes[1h]
 ;;; begin SourceFile Attribute	
 	dwbe 0x001b		; attribute_name_index: SourceFile
 	ddbe 0x00000002		; attribute_length
