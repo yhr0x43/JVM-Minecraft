@@ -1,10 +1,10 @@
 	%include "class.inc"
 
 ;;; File version stuff
-	db 0xca,0xfe,0xba,0xbe 		; magic
-	dwbe 0x0000			; minor_version
-	dwbe 0x0041			; major_version
-	
+	db 0xca,0xfe,0xba,0xbe			; magic
+	dwbe 0x0000				; minor_version
+	dwbe 0x0041				; major_version
+
 	begin_counted_list constant_pool
 	constant Csuper_class, CONSTANT_Class
 	dwbe Csuper_class_name			; name_index
@@ -66,7 +66,7 @@
 
 	constant CCode, CONSTANT_Utf8
 	dutf8 'Code'
-	
+
 	constant Cmain_name, CONSTANT_Utf8
 	dutf8 'main'
 
@@ -81,25 +81,25 @@
 	dwbe Csuper_class		; super_class: java/lang/Object
 	dwbe 0x0000			; interfaces_count
 	dwbe 0x0000			; fields_count
-	
+
 	begin_counted_list methods
-	method 0x0009, Cmain_name, Cmain_desc
+	method ACC_PUBLIC | ACC_STATIC, Cmain_name, Cmain_desc
 	begin_counted_list attributes
 	begin_attribute CCode
 	dwbe 0x0002		; max_stack
 	dwbe 0x0001		; max_locals
 	begin_sized_section code
-	
+
 	getstatic CSystem_out_field
 	ldc CString_Hello
 	invokevirtual Cout_println
 	return
-	
+
 	end_sized_section code
 	dwbe 0x0000		; exception_table_length
 	dwbe 0x0000		; attributes_count
 	end_attribute
 	end_counted_list attributes
 	end_counted_list methods
-	
+
 	dwbe 0x0000		; attributes_count
