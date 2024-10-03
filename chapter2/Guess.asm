@@ -185,7 +185,6 @@ main:
 	getstatic System.in	 		; -> _scanner,_scanner,in
 	invokespecial Scanner.init		; -> scanner
 	astore_0				; ->
-.store_scanner:					; ->
 	new RandomClass				; -> _random
 	dup					; -> _random,_random
 	invokespecial Random.init		; -> random
