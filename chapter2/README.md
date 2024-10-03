@@ -21,15 +21,15 @@ Now, I will explain the code and therefore some basic concept of how these JVM i
 
 ``` nasm
 main:
-	new ScannerClass	 		; -> _scanner
-	dup					; -> _scanner,_scanner
-	getstatic System.in	 		; -> _scanner,_scanner,in
-	invokespecial Scanner.init		; -> scanner
-	astore_0				; ->
-	new RandomClass				; -> _random
-	dup					; -> _random,_random
-	invokespecial Random.init		; -> random
-	astore_1				; ->
+ 	new ScannerClass	 		; -> _scanner
+ 	dup					; -> _scanner,_scanner
+ 	getstatic System.in	 		; -> _scanner,_scanner,in
+ 	invokespecial Scanner.init		; -> scanner
+ 	astore_0				; ->
+ 	new RandomClass				; -> _random
+ 	dup					; -> _random,_random
+ 	invokespecial Random.init		; -> random
+ 	astore_1				; ->
 ```
 
 This first part creates a new `java/util/Scanner` object using `java/lang/System.in` as its parameter. The first thing to explain is what do those comments mean. They are actually for me to keep track of the content of "operand stack" (sometimes simply known as "the stack"). JVM's instruction is stack based, which means most instructions use the stack as the means to pass parameters, save return values, and perform type-checking. The last point will become important later.
@@ -40,37 +40,37 @@ Then, what this code does becomes mostly self-explained when you take a look at 
  - `astore_0` stores the top value on stack into local variable 0. In this method local variable 0 was holding the program arguments, but I don't need that so I just overwrite it.
 
  ``` nasm
- .restart:					; ->
-	aload_1					; -> random
-	ldc GUESS_MAX				; -> random,GUESS_MAX
-	ldc GUESS_MIN				; -> random,GUESS_MAX,GUESS_MIN
-	dup_x2					; -> GUESS_MIN,random,GUESS_MAX,GUESS_MIN
-	isub					; -> GUESS_MIN,random,range
-	invokevirtual Random.nextInt		; -> GUESS_MIN,intInRange
-	iadd					; -> target
-	istore_2				; ->
+.restart:					; ->
+ 	aload_1					; -> random
+ 	ldc GUESS_MAX				; -> random,GUESS_MAX
+ 	ldc GUESS_MIN				; -> random,GUESS_MAX,GUESS_MIN
+ 	dup_x2					; -> GUESS_MIN,random,GUESS_MAX,GUESS_MIN
+ 	isub					; -> GUESS_MIN,random,range
+ 	invokevirtual Random.nextInt		; -> GUESS_MIN,intInRange
+ 	iadd					; -> target
+ 	istore_2				; ->
  ```
 
  This part generates the random integer for this round, it computes `GUESS_MIN + Random.nextInt(GUESS_MAX-GUESS_MIN)` and stores it in local 2.
 
  ``` nasm
- .guess:					; ->
-	getstatic System.out			; -> out
-	ldc makeGuessString			; -> out,makeGuess
-	iconst_2				; -> out,makeGuess,2
-	anewarray ObjectClass			; -> out,makeGuess,array
-	dup					; -> out,makeGuess,array,array
-	iconst_0				; -> out,makeGuess,array,array,0
-	ldc GUESS_MIN				; -> out,makeGuess,array,array,0,GUESS_MIN
-	invokestatic Integer.valueOf		; -> out,makeGuess,array,array,0,Int(GUESS_MIN)
-	aastore					; -> out,makeGuess,array
-	dup					; -> out,makeGuess,array,array
-	iconst_1				; -> out,makeGuess,array,array,0
-	ldc GUESS_MAX				; -> out,makeGuess,array,array,0,GUESS_MAX
-	invokestatic Integer.valueOf		; -> out,makeGuess,array,array,0,Int(GUESS_MAX)
-	aastore					; -> out,makeGuess,array
-	invokevirtual PrintStream.format	; -> out
-	pop					; ->
+.guess:						; ->
+ 	getstatic System.out			; -> out
+ 	ldc makeGuessString			; -> out,makeGuess
+ 	iconst_2				; -> out,makeGuess,2
+ 	anewarray ObjectClass			; -> out,makeGuess,array
+ 	dup					; -> out,makeGuess,array,array
+ 	iconst_0				; -> out,makeGuess,array,array,0
+ 	ldc GUESS_MIN				; -> out,makeGuess,array,array,0,GUESS_MIN
+ 	invokestatic Integer.valueOf		; -> out,makeGuess,array,array,0,Int(GUESS_MIN)
+ 	aastore					; -> out,makeGuess,array
+ 	dup					; -> out,makeGuess,array,array
+ 	iconst_1				; -> out,makeGuess,array,array,0
+ 	ldc GUESS_MAX				; -> out,makeGuess,array,array,0,GUESS_MAX
+ 	invokestatic Integer.valueOf		; -> out,makeGuess,array,array,0,Int(GUESS_MAX)
+ 	aastore					; -> out,makeGuess,array
+ 	invokevirtual PrintStream.format	; -> out
+ 	pop					; ->
  ```
 
  This part looks intimidating until you realize it just runs `System.out.format("...", GUESS_MIN, GUESS_MAX)`.
@@ -78,28 +78,28 @@ Then, what this code does becomes mostly self-explained when you take a look at 
 
  ``` nasm
  	iload_2					; -> target
-	aload_0					; -> target,scanner
-	invokevirtual Scanner.nextInt		; -> target,input
-	isub					; -> diff
-	dup					; -> diff,diff
-	ifeq .success				; -> diff
-	ifgt .too_small				; ->
+ 	aload_0					; -> target,scanner
+ 	invokevirtual Scanner.nextInt		; -> target,input
+ 	isub					; -> diff
+ 	dup					; -> diff,diff
+ 	ifeq .success				; -> diff
+ 	ifgt .too_small				; ->
 .too_big:					; ->
-	getstatic System.out			; -> out
-	ldc tooBigString			; -> out,tooBig
-	invokevirtual PrintStream.println       ; ->
-	goto .guess				; ->
+ 	getstatic System.out			; -> out
+ 	ldc tooBigString			; -> out,tooBig
+ 	invokevirtual PrintStream.println       ; ->
+ 	goto .guess				; ->
 .too_small:					; ->
-	getstatic System.out			; -> out
-	ldc tooSmallString			; -> out,tooSmall
-	invokevirtual PrintStream.println       ; ->
-	goto .guess				; ->
+ 	getstatic System.out			; -> out
+ 	ldc tooSmallString			; -> out,tooSmall
+ 	invokevirtual PrintStream.println       ; ->
+ 	goto .guess				; ->
 .success:					; -> diff
-	pop					; ->
-	getstatic System.out			; -> out
-	ldc successString			; -> out,success
-	invokevirtual PrintStream.println       ; ->
-	goto .restart				; ->
+ 	pop					; ->
+ 	getstatic System.out			; -> out
+ 	ldc successString			; -> out,success
+ 	invokevirtual PrintStream.println       ; ->
+ 	goto .restart				; ->
 ```
 
 So, the rest of the code is just getting a user input, compare it to the secret and branch based on the result of that. The code itself is very straightforward and it is now complete! Let's test run this.
